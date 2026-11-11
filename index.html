@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>$GETAWAY — the getaway starts before the 19th</title>
+<meta name="description" content="Getaway ($GETAWAY): a very cool iguana, a pink convertible and a bag in the back seat. A memecoin on Solana.">
+<meta property="og:title" content="$GETAWAY">
+<meta property="og:description" content="Engine's running. Shades on. Bag in the back seat.">
+<meta property="og:image" content="img/logo.png">
+<link rel="icon" href="img/favicon.png">
+<style>
+  :root{
+    --bg:#1a0a33; --bg2:#2a0f4f; --pink:#ff4fb4; --pink2:#ff8fd8; --cyan:#3ce6ff; --yellow:#ffe150;
+    --ink:#22122a; --text:#fff3ff; --muted:#d8b8ea;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Arial Black",Arial,Helvetica,sans-serif;color:var(--text);background:var(--bg);overflow-x:hidden}
+  a{color:inherit}
+  /* ---- fundo synthwave ---- */
+  .sky{position:fixed;inset:0;z-index:-2;background:linear-gradient(#24125f 0%,#8c28a0 38%,#ff5a8c 56%,#ffaf6e 62%,#2a0e48 62.2%,#1a0a33 100%)}
+  .sun{position:fixed;z-index:-1;left:50%;top:62vh;width:min(70vw,620px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+       background:linear-gradient(#ffee6e,#ff4696);
+       -webkit-mask:linear-gradient(#000 0 50%,transparent 50% 53%,#000 53% 60%,transparent 60% 64%,#000 64% 70%,transparent 70% 75%,#000 75% 80%,transparent 80% 86%,#000 86% 90%,transparent 90%);
+               mask:linear-gradient(#000 0 50%,transparent 50% 53%,#000 53% 60%,transparent 60% 64%,#000 64% 70%,transparent 70% 75%,#000 75% 80%,transparent 80% 86%,#000 86% 90%,transparent 90%);
+       clip-path:inset(0 0 calc(50% - 0px) 0);filter:drop-shadow(0 0 40px #ff9a7a)}
+  .grid{position:fixed;z-index:-1;left:-50%;right:-50%;top:62vh;bottom:-10vh;perspective:300px;overflow:hidden}
+  .grid::before{content:"";position:absolute;inset:0 0 -100% 0;transform:rotateX(60deg);transform-origin:top;
+       background-image:linear-gradient(var(--pink2) 3px,transparent 3px),linear-gradient(90deg,var(--pink2) 3px,transparent 3px);
+       background-size:80px 80px;animation:road 1.2s linear infinite;filter:drop-shadow(0 0 6px var(--pink))}
+  @keyframes road{to{background-position:0 80px}}
+  /* ---- layout ---- */
+  header{display:flex;justify-content:space-between;align-items:center;padding:16px clamp(16px,4vw,48px)}
+  .brand{display:flex;gap:10px;align-items:center;font-size:20px;text-decoration:none}
+  .brand img{width:42px;height:42px;border-radius:12px;box-shadow:0 0 12px var(--cyan)}
+  nav a{margin-left:18px;text-decoration:none;font-size:14px;opacity:.9}
+  nav a:hover{color:var(--cyan)}
+  main{max-width:1100px;margin:0 auto;padding:0 16px 80px}
+  .hero{text-align:center;padding:4vh 0 2vh}
+  .hero h1{font-size:clamp(56px,13vw,150px);margin:0;line-height:.95;color:var(--yellow);
+       -webkit-text-stroke:5px var(--ink);paint-order:stroke fill;text-shadow:6px 8px 0 #320840,0 0 30px rgba(255,225,80,.35)}
+  .ticker{display:inline-block;margin-top:10px;font-size:clamp(22px,4vw,36px);color:var(--cyan);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill}
+  .tag{font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:clamp(16px,2.4vw,22px);margin:14px auto 0;max-width:640px;text-shadow:0 2px 0 #320840}
+  .car{width:min(560px,92vw);margin:2vh auto 0;display:block;animation:bob .5s ease-in-out infinite alternate;filter:drop-shadow(0 12px 0 rgba(30,0,40,.45))}
+  @keyframes bob{to{transform:translateY(-6px) rotate(-.6deg)}}
+  .ca{margin:22px auto 0;display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .ca code{background:rgba(20,6,40,.75);border:2px solid var(--cyan);border-radius:14px;padding:12px 16px;font-size:clamp(11px,2.6vw,15px);word-break:break-all;max-width:90vw}
+  .btn{cursor:pointer;border:3px solid var(--ink);border-radius:16px;padding:12px 20px;font:inherit;font-size:16px;color:var(--ink);background:var(--yellow);
+       box-shadow:0 5px 0 var(--ink);text-decoration:none;display:inline-block;transition:transform .08s}
+  .btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+  .btn.pink{background:var(--pink);color:#fff}
+  .btn.cyan{background:var(--cyan)}
+  .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+  section{margin-top:70px}
+  h2{font-size:clamp(30px,5vw,48px);text-align:center;margin:0 0 18px;color:var(--pink2);-webkit-text-stroke:2px var(--ink);paint-order:stroke fill;text-shadow:4px 5px 0 #320840}
+  .card{background:rgba(26,8,52,.82);border:3px solid var(--pink);border-radius:22px;padding:22px;box-shadow:0 0 24px rgba(255,79,180,.35)}
+  /* ---- jogo ---- */
+  #game-wrap{position:relative}
+  canvas{width:100%;display:block;border-radius:16px;background:#1a0a33;touch-action:manipulation;cursor:pointer}
+  .hud{display:flex;justify-content:space-between;font-size:15px;margin-top:10px;color:var(--muted)}
+  .hud b{color:var(--yellow)}
+  /* ---- passos ---- */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px}
+  .step{font-family:Arial,Helvetica,sans-serif}
+  .step .n{font-family:"Arial Black",Arial,sans-serif;font-size:34px;color:var(--cyan)}
+  .step h3{font-family:"Arial Black",Arial,sans-serif;margin:6px 0}
+  .step p{margin:0;color:var(--muted);line-height:1.45}
+  .lore{font-family:Arial,Helvetica,sans-serif;font-size:18px;line-height:1.6;text-align:center;max-width:760px;margin:0 auto}
+  .lore em{color:var(--yellow);font-style:normal;font-weight:700}
+  footer{font-family:Arial,Helvetica,sans-serif;text-align:center;font-size:12px;color:var(--muted);padding:30px 16px 40px;max-width:820px;margin:0 auto;line-height:1.5}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--cyan);color:var(--ink);padding:10px 18px;border-radius:12px;border:3px solid var(--ink);transition:transform .25s}
+  .toast.on{transform:translateX(-50%) translateY(0)}
+  @media (max-width:600px){nav{display:none}}
+  @media (prefers-reduced-motion:reduce){.grid::before,.car{animation:none}}
+</style>
+</head>
+<body>
+<div class="sky"></div><div class="sun"></div><div class="grid"></div>
+
+<header>
+  <a class="brand" href="#"><img src="img/logo.png" alt="">$GETAWAY</a>
+  <nav><a href="#play">Play</a><a href="#lore">Lore</a><a href="#buy">How to buy</a></nav>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>GETAWAY</h1>
+    <div class="ticker">$GETAWAY · on Solana</div>
+    <p class="tag">Engine's running. Shades on. Bag in the back seat. The getaway starts before the 19th. 🦎🚗💨</p>
+    <img class="car" src="img/car.png" alt="A green iguana in sunglasses driving a pink convertible">
+    <div class="ca"><code id="ca">CA drops at launch 👀</code><button class="btn cyan" id="copy">Copy CA</button></div>
+    <div class="ctas">
+      <a class="btn pink" id="buyLink" href="https://pump.fun" target="_blank" rel="noopener">Buy on pump.fun</a>
+      <a class="btn" href="#play">Play the getaway</a>
+    </div>
+  </div>
+
+  <section id="play">
+    <h2>Outrun the sirens</h2>
+    <div class="card">
+      <div id="game-wrap"><canvas id="c" width="960" height="360" aria-label="Getaway mini game"></canvas></div>
+      <div class="hud"><span>Space / tap = jump · grab the 💵 · dodge the cones</span><span>Best: <b id="best">0</b></span></div>
+    </div>
+  </section>
+
+  <section id="lore">
+    <h2>The lore</h2>
+    <div class="card lore">
+      Nobody knows where <em>Getaway</em> got the convertible. Nobody knows what's in the bag.
+      All we know: one very cool iguana, one tank of gas and a <em>date circled in neon</em> — the 19th.
+      The sirens are getting closer. The engine is already running. <em>Get in.</em>
+    </div>
+  </section>
+
+  <section id="buy">
+    <h2>How to ride</h2>
+    <div class="steps">
+      <div class="card step"><div class="n">01</div><h3>Get a wallet</h3><p>Phantom, Solflare or any Solana wallet.</p></div>
+      <div class="card step"><div class="n">02</div><h3>Load some SOL</h3><p>Buy SOL on an exchange and send it to your wallet.</p></div>
+      <div class="card step"><div class="n">03</div><h3>Find $GETAWAY</h3><p>Open pump.fun and paste the CA above. Check it twice.</p></div>
+      <div class="card step"><div class="n">04</div><h3>Shades on</h3><p>Only ride with what you can afford to leave on the road.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  $GETAWAY is a memecoin with no intrinsic value, no team promises and no expectation of financial return. It's for fun.
+  Crypto is risky — never spend more than you can afford to lose. Not affiliated with, endorsed by or connected to any game, studio or publisher.
+  The iguana is an original character.
+</footer>
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* ===== configuração: coloque o mint aqui depois do lançamento ===== */
+const CA = "";
+
+const caEl = document.getElementById("ca"), toast = document.getElementById("toast");
+if (CA) { caEl.textContent = CA; document.getElementById("buyLink").href = "https://pump.fun/coin/" + CA; }
+document.getElementById("copy").onclick = async () => {
+  toast.textContent = CA ? "CA copied!" : "CA drops at launch — stay tuned 🦎";
+  if (CA) { try { await navigator.clipboard.writeText(CA); } catch (e) {} }
+  toast.classList.add("on"); setTimeout(() => toast.classList.remove("on"), 1600);
+};
+
+/* ===== mini jogo ===== */
+const cv = document.getElementById("c"), ctx = cv.getContext("2d");
+const W = cv.width, H = cv.height, GROUND = H - 40;
+const car = new Image(); car.src = "img/car.png";
+const CAR_W = 170, CAR_H = 122;
+let best = 0; try { best = +localStorage.getItem("getaway_best") || 0; } catch (e) {}
+document.getElementById("best").textContent = best;
+
+let st;
+function reset() {
+  st = { y: GROUND - CAR_H, vy: 0, t: 0, speed: 6, score: 0, cash: 0, obs: [], bills: [], parts: [], next: 70, nextBill: 40, state: "ready", off: 0 };
+}
+reset();
+
+function jump() {
+  if (st.state === "ready") { st.state = "run"; }
+  else if (st.state === "over") { reset(); st.state = "run"; return; }
+  if (st.y >= GROUND - CAR_H - 1) st.vy = -15.5;
+}
+addEventListener("keydown", e => { if (e.code === "Space" || e.code === "ArrowUp") { if (document.activeElement === document.body) e.preventDefault(); jump(); } });
+cv.addEventListener("pointerdown", e => { e.preventDefault(); jump(); });
+
+function spawnObstacle() {
+  const kind = Math.random() < 0.6 ? "cone" : "block";
+  st.obs.push(kind === "cone" ? { x: W + 20, w: 34, h: 48, kind } : { x: W + 20, w: 70, h: 40, kind });
+}
+function spawnBill() { st.bills.push({ x: W + 20, y: GROUND - 60 - Math.random() * 150, r: Math.random() * 6 }); }
+
+function hit(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+
+function update() {
+  if (st.state !== "run") return;
+  st.t++; st.speed = 6 + st.t / 600; st.off = (st.off + st.speed) % 80;
+  st.vy += 0.8; st.y = Math.min(st.y + st.vy, GROUND - CAR_H); if (st.y === GROUND - CAR_H) st.vy = 0;
+  st.score += st.speed / 10;
+  if (--st.next <= 0) { spawnObstacle(); st.next = 55 + Math.random() * 70 - Math.min(25, st.t / 200); }
+  if (--st.nextBill <= 0) { spawnBill(); st.nextBill = 35 + Math.random() * 60; }
+  st.obs.forEach(o => o.x -= st.speed); st.obs = st.obs.filter(o => o.x > -100);
+  st.bills.forEach(b => { b.x -= st.speed; b.r += 0.08; }); st.bills = st.bills.filter(b => b.x > -60 && !b.got);
+  st.parts.forEach(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.3; p.a -= 0.03; }); st.parts = st.parts.filter(p => p.a > 0);
+  const box = { x: 70 + 26, y: st.y + 52, w: CAR_W - 46, h: CAR_H - 62 };
+  for (const o of st.obs) if (hit(box, { x: o.x + 4, y: GROUND - o.h + 6, w: o.w - 8, h: o.h - 6 })) {
+    st.state = "over"; const s = Math.floor(st.score) + st.cash * 10;
+    if (s > best) { best = s; try { localStorage.setItem("getaway_best", best); } catch (e) {} document.getElementById("best").textContent = best; }
+  }
+  const grab = { x: 70, y: st.y, w: CAR_W, h: CAR_H };
+  for (const b of st.bills) if (!b.got && hit(grab, { x: b.x - 22, y: b.y - 12, w: 44, h: 24 })) {
+    b.got = true; st.cash++;
+    for (let i = 0; i < 8; i++) st.parts.push({ x: b.x, y: b.y, vx: (Math.random() - .5) * 6, vy: -Math.random() * 5, a: 1 });
+  }
+}
+
+function draw() {
+  // céu
+  const g = ctx.createLinearGradient(0, 0, 0, GROUND);
+  g.addColorStop(0, "#24125f"); g.addColorStop(.6, "#b03aa0"); g.addColorStop(1, "#ff9a78");
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, GROUND);
+  // sol
+  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, GROUND); ctx.clip();
+  const sg = ctx.createLinearGradient(0, GROUND - 180, 0, GROUND + 180);
+  sg.addColorStop(0, "#ffee6e"); sg.addColorStop(1, "#ff4696");
+  ctx.fillStyle = sg; ctx.beginPath(); ctx.arc(W * .68, GROUND, 170, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#e0609a";
+  for (let i = 0; i < 6; i++) ctx.fillRect(0, GROUND - 90 + i * 16, W, 3 + i * 1.5);
+  ctx.restore();
+  // palmeiras paralaxe
+  ctx.fillStyle = "#3c1254";
+  for (let i = 0; i < 4; i++) { const px = ((i * 290 - st.t * st.speed * .25) % (W + 300) + W + 300) % (W + 300) - 150; palm(px, GROUND, 0.8 + (i % 2) * .25); }
+  // chão
+  ctx.fillStyle = "#2a0e48"; ctx.fillRect(0, GROUND, W, H - GROUND);
+  ctx.strokeStyle = "#ff8fd8"; ctx.lineWidth = 2; ctx.shadowColor = "#ff4fb4"; ctx.shadowBlur = 8;
+  ctx.beginPath(); ctx.moveTo(0, GROUND); ctx.lineTo(W, GROUND); ctx.stroke();
+  for (let x = -st.off; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x, GROUND); ctx.lineTo(x - 40, H); ctx.stroke(); }
+  ctx.beginPath(); ctx.moveTo(0, GROUND + 20); ctx.lineTo(W, GROUND + 20); ctx.stroke();
+  ctx.shadowBlur = 0;
+  // sirene perseguindo
+  if (st.state === "run") {
+    const on = Math.floor(st.t / 8) % 2;
+    const rg = ctx.createRadialGradient(0, GROUND - 40, 0, 0, GROUND - 40, 140);
+    rg.addColorStop(0, on ? "rgba(255,40,60,.75)" : "rgba(40,120,255,.75)"); rg.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = rg; ctx.fillRect(0, GROUND - 180, 160, 200);
+  }
+  // obstáculos
+  for (const o of st.obs) {
+    if (o.kind === "cone") {
+      ctx.fillStyle = "#ff8a1e"; ctx.strokeStyle = "#22122a"; ctx.lineWidth = 4;
+      ctx.beginPath(); ctx.moveTo(o.x, GROUND); ctx.lineTo(o.x + o.w / 2, GROUND - o.h); ctx.lineTo(o.x + o.w, GROUND); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = "#fff"; ctx.fillRect(o.x + 9, GROUND - 26, o.w - 18, 7);
+    } else {
+      ctx.fillStyle = "#fff"; ctx.strokeStyle = "#22122a"; ctx.lineWidth = 4;
+      ctx.fillRect(o.x, GROUND - o.h, o.w, 18); ctx.strokeRect(o.x, GROUND - o.h, o.w, 18);
+      ctx.fillStyle = "#ff3b5c"; for (let s = 0; s < o.w; s += 20) ctx.fillRect(o.x + s + 3, GROUND - o.h + 2, 9, 14);
+      ctx.fillStyle = "#22122a"; ctx.fillRect(o.x + 8, GROUND - o.h + 18, 6, o.h - 18); ctx.fillRect(o.x + o.w - 14, GROUND - o.h + 18, 6, o.h - 18);
+    }
+  }
+  // notas
+  for (const b of st.bills) {
+    ctx.save(); ctx.translate(b.x, b.y + Math.sin(b.r) * 4); ctx.rotate(Math.sin(b.r) * .3);
+    ctx.fillStyle = "#78c86e"; ctx.strokeStyle = "#1e5a28"; ctx.lineWidth = 3;
+    ctx.fillRect(-22, -12, 44, 24); ctx.strokeRect(-22, -12, 44, 24);
+    ctx.fillStyle = "#1e642d"; ctx.font = "bold 18px Arial Black, Arial"; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText("$", 0, 1);
+    ctx.restore();
+  }
+  ctx.fillStyle = "#ffe150"; for (const p of st.parts) { ctx.globalAlpha = p.a; ctx.fillRect(p.x, p.y, 5, 5); } ctx.globalAlpha = 1;
+  // carro
+  if (car.complete) ctx.drawImage(car, 70, st.y + (st.state === "run" && st.y === GROUND - CAR_H ? Math.sin(st.t * .5) * 1.5 : 0), CAR_W, CAR_H);
+  // HUD
+  ctx.font = "22px Arial Black, Arial"; ctx.textAlign = "left"; ctx.textBaseline = "top";
+  outline(`DISTANCE ${Math.floor(st.score)}`, 18, 14, "#fff3ff"); outline(`💵 x${st.cash}`, 18, 44, "#ffe150");
+  ctx.textAlign = "center";
+  if (st.state === "ready") { ctx.font = "40px Arial Black, Arial"; outline("TAP / SPACE TO DRIVE", W / 2, H / 2 - 70, "#ffe150"); }
+  if (st.state === "over") {
+    ctx.font = "44px Arial Black, Arial"; outline("BUSTED!", W / 2, H / 2 - 100, "#ff4fb4");
+    ctx.font = "24px Arial Black, Arial"; outline(`Score ${Math.floor(st.score) + st.cash * 10}  ·  tap to try again`, W / 2, H / 2 - 48, "#fff3ff");
+  }
+}
+function outline(t, x, y, c) { ctx.lineWidth = 6; ctx.strokeStyle = "#22122a"; ctx.strokeText(t, x, y); ctx.fillStyle = c; ctx.fillText(t, x, y); }
+function palm(x, base, k) {
+  const h = 150 * k; ctx.lineWidth = 12 * k; ctx.strokeStyle = "#3c1254";
+  ctx.beginPath(); ctx.moveTo(x, base); ctx.quadraticCurveTo(x + 10 * k, base - h / 2, x + 22 * k, base - h); ctx.stroke();
+  const tx = x + 22 * k, ty = base - h;
+  for (const a of [-2.9, -2.4, -1.9, -1.2, -.7, -.2]) {
+    ctx.beginPath(); ctx.moveTo(tx, ty);
+    ctx.quadraticCurveTo(tx + Math.cos(a) * 55 * k, ty + Math.sin(a) * 55 * k, tx + Math.cos(a) * 85 * k, ty + Math.sin(a) * 40 * k + 30 * k);
+    ctx.quadraticCurveTo(tx + Math.cos(a) * 50 * k, ty + Math.sin(a) * 40 * k + 10 * k, tx, ty); ctx.fill();
+  }
+}
+(function loop() { update(); draw(); requestAnimationFrame(loop); })();
+</script>
+</body>
+</html>
